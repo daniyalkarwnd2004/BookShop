@@ -1,0 +1,78 @@
+{% extends 'parent/Base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<style>
+  form {
+    max-width: 380px;
+    margin: 80px auto;
+    background: #fff;
+    padding: 30px 35px;
+    border-radius: 12px;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+  }
+  /* بقیه استایل‌ها هم همینجا */
+  label {
+    display: block;
+    font-weight: 600;
+    color: #34495e;
+    margin-bottom: 6px;
+    margin-top: 20px;
+  }
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 1.8px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+  }
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    border-color: #2980b9;
+    outline: none;
+  }
+  input[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    margin-top: 25px;
+    background-color: #2980b9;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  input[type="submit"]:hover {
+    background-color: #1f6391;
+  }
+  a {
+    display: inline-block;
+    margin-top: 15px;
+    color: #2980b9;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  a:hover {
+    color: #1f6391;
+    text-decoration: underline;
+  }
+</style>
+
+<form method="post">
+    {% csrf_token %}
+    <label for="username">Username:</label>
+    <input type="text" name="username" required id="username">
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" required id="password">
+
+    <input type="submit" value="Login">
+
+    <a href="{% url 'blog:password_reset' %}">Forgot Password?</a>
+</form>
+{% endblock %}

@@ -1,0 +1,175 @@
+{% extends 'parent/Base.html' %}
+{% block title %} Ticket {% endblock %}
+
+{% block content %}
+<style>
+    /* استایل‌هایی که قبلا دادم */
+    body {
+        background: #f7f9fc;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+    }
+    .form-container {
+        max-width: 480px;
+        background-color: #ffffff;
+        margin: 40px auto;
+        padding: 30px 40px;
+        border-radius: 15px;
+        box-shadow: 0 12px 30px rgba(0, 123, 204, 0.15);
+        transition: box-shadow 0.3s ease;
+    }
+    .form-container:hover {
+        box-shadow: 0 16px 40px rgba(0, 123, 204, 0.25);
+    }
+    .title_ticket {
+        text-align: center;
+        color: #007acc;
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+        user-select: none;
+    }
+    hr {
+        border: none;
+        border-top: 2px solid #007acc;
+        margin: 15px 0 30px 0;
+        width: 60px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 3px;
+    }
+    .form-group {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+    label {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #444;
+        user-select: none;
+    }
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+        padding: 12px 15px;
+        border: 1.8px solid #ccc;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+        resize: vertical;
+        min-height: 40px;
+        font-family: inherit;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus,
+    textarea:focus {
+        border-color: #007acc;
+        outline: none;
+        box-shadow: 0 0 8px rgba(0, 122, 204, 0.4);
+    }
+    textarea {
+        min-height: 100px;
+        font-family: inherit;
+    }
+    .submit-btn {
+        background-color: #007acc;
+        color: white;
+        font-weight: 700;
+        padding: 14px 0;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: background-color 0.3s ease, transform 0.15s ease;
+        user-select: none;
+        box-shadow: 0 6px 18px rgba(0, 122, 204, 0.4);
+    }
+    .submit-btn:hover {
+        background-color: #005a99;
+        transform: scale(1.05);
+        box-shadow: 0 8px 24px rgba(0, 90, 153, 0.6);
+    }
+    .submit-btn:active {
+        transform: scale(0.95);
+        box-shadow: 0 4px 12px rgba(0, 90, 153, 0.7);
+    }
+    .error-section {
+        margin-top: 25px;
+        background-color: #ffe6e6;
+        border: 1px solid #ff4c4c;
+        border-radius: 10px;
+        padding: 15px 20px;
+    }
+    .error-message {
+        color: #d8000c;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+        user-select: none;
+    }
+    @media (max-width: 520px) {
+        .form-container {
+            padding: 25px 20px;
+            margin: 20px 10px;
+        }
+    }
+</style>
+
+<div class="form-container">
+    <form method="post" class="ticket-form">
+        {% csrf_token %}
+        <h2 class="title_ticket">Ticket</h2>
+        <hr>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" name="name" placeholder="name..." required
+                   {% if form.name.value %} value="{{ form.name.value }}" {% endif %}>
+        </div>
+
+        <div class="form-group">
+            <label for="family">Family:</label>
+            <input type="text" name="family" placeholder="family..." required
+                   {% if form.family.value %} value="{{ form.family.value }}" {% endif %}>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" name="email" placeholder="email..." required
+                   {% if form.email.value %} value="{{ form.email.value }}" {% endif %}>
+        </div>
+
+        <div class="form-group">
+            <label for="subject">Subject:</label>
+            <select name="subject" id="subject">
+                <option value="Offer">Offer</option>
+                <option value="Criticism">Criticism</option>
+                <option value="Report">Report</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="massage">Message:</label>
+            <textarea name="massage">{% if form.massage.value %}{{ form.massage.value }}{% endif %}</textarea>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Send" class="submit-btn">
+        </div>
+    </form>
+
+    {% if form.errors %}
+        <div class="error-section">
+            {% for fild in form %}
+                {% if fild.errors %}
+                    {% for error in fild.errors %}
+                        <div class="error-message">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

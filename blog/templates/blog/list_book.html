@@ -1,0 +1,167 @@
+{% extends 'parent/Base.html' %}
+{% block title %} لیست کتاب‌ها {% endblock %}
+
+{% block content %}
+<style>
+    /* کانتینر کلی */
+    #product-container {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 15px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        direction: rtl;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* کارت محصول */
+    .product-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        overflow: hidden;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 15px 25px;
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
+        user-select: none;
+    }
+    .product-card:hover, .product-card:focus {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 45px rgba(0,0,0,0.2);
+        outline: none;
+    }
+
+    /* عکس محصول */
+    .product-image {
+        width: 100%;
+        height: 190px;
+        border-radius: 14px;
+        object-fit: cover;
+        margin-bottom: 15px;
+        transition: transform 0.4s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .product-card:hover .product-image, .product-card:focus .product-image {
+        transform: scale(1.1);
+    }
+
+    /* توضیحات محصول */
+    .product-description {
+        font-size: 0.95rem;
+        color: #666;
+        text-align: center;
+        margin-bottom: 12px;
+        min-height: 60px;
+        overflow: hidden;
+        line-height: 1.4;
+        font-style: italic;
+        user-select: text;
+    }
+
+    /* عنوان محصول */
+    .product-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #222;
+        text-align: center;
+        text-decoration: none;
+        user-select: text;
+        transition: color 0.3s ease;
+    }
+    .product-title:hover, .product-title:focus {
+        color: #007acc;
+        text-decoration: underline;
+        outline: none;
+    }
+
+    /* ریسپانسیو */
+    @media (max-width: 900px) {
+        #product-container {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+        .product-image {
+            height: 160px;
+        }
+    }
+    @media (max-width: 600px) {
+        #product-container {
+            grid-template-columns: 1fr;
+            padding: 0 10px;
+        }
+        .product-image {
+            height: 140px;
+        }
+        .product-description {
+            font-size: 0.9rem;
+        }
+        .product-title {
+            font-size: 1.1rem;
+        }
+    }
+
+            form {
+            margin-bottom: 40px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            width: 260px;
+            border: 1.5px solid #ccc;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        input[type="text"]:focus {
+            border-color: #00bcd4;
+            outline: none;
+            box-shadow: 0 0 8px rgba(0,188,212,0.2);
+        }
+
+        input[type="submit"] {
+            padding: 12px 24px;
+            background: #00bcd4;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.2s;
+            margin-left: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background: #0097a7;
+            transform: scale(1.05);
+        }
+
+</style>
+    <form method="get" action="{% url 'blog:search' %}">
+        <input type="text" name="query" placeholder="Search books...">
+        <input type="submit" value="Search">
+    </form>
+
+<div id="product-container">
+    {% for book in all_book %}
+        <div class="product-card" tabindex="0">
+            {% with book.images.first as first_image %}
+                {% if first_image and first_image.image and first_image.image.url %}
+                    <img src="{{ first_image.image.url }}" alt="{{ book.title }}" class="product-image">
+                {% else %}
+                    <img src="https://via.placeholder.com/300x200?text=بدون+تصویر" alt="بدون تصویر" class="product-image">
+                {% endif %}
+            {% endwith %}
+            <p class="product-description">{{ book.description|truncatewords:15 }}</p>
+            <a href="{{ book.get_absolut_url }}" class="product-title">{{ book.title }}</a>
+        </div>
+    {% endfor %}
+</div>
+
+{% include 'partials/paginator.html' with page=all_book %}
+{% endblock %}

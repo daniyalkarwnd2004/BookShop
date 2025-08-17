@@ -1,0 +1,96 @@
+{% extends 'parent/base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block head %}
+<style>
+  .register-container {
+    max-width: 420px;
+    margin: 60px auto;
+    padding: 30px 35px;
+    background: #f9fafb;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .register-title {
+    text-align: center;
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-weight: 700;
+  }
+
+  form.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  form.register-form input[type="text"],
+  form.register-form input[type="email"],
+  form.register-form input[type="password"] {
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 1.8px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+  }
+
+  form.register-form input[type="text"]:focus,
+  form.register-form input[type="email"]:focus,
+  form.register-form input[type="password"]:focus {
+    border-color: #2980b9;
+    outline: none;
+  }
+
+  form.register-form input[type="submit"] {
+    padding: 14px;
+    background-color: #2980b9;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  form.register-form input[type="submit"]:hover {
+    background-color: #1f6391;
+  }
+
+  .Error {
+    background-color: #fdecea;
+    color: #b71c1c;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-top: -12px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 6px rgba(183, 28, 28, 0.2);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+  <div class="register-container">
+    <h2 class="register-title">Register</h2>
+    <form method="POST" class="register-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Register">
+    </form>
+
+    {% if form.errors %}
+      {% for field in form %}
+        {% if field.errors %}
+          {% for error in field.errors %}
+            <p class="Error">{{ field.label }}: {{ error }}</p>
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endblock %}

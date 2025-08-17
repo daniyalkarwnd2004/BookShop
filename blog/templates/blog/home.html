@@ -1,0 +1,254 @@
+{% extends 'parent/Base.html' %}
+{% block title %} Home {% endblock %}
+{% load blog_tags %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bookstore | Home</title>
+    <style>
+        /* بدنه اصلی با بک‌گراند گرادیانی و انیمیشن */
+        body {
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #ffffff);
+            margin: 0;
+            padding: 40px 20px;
+            color: #333;
+            animation: fadeInBody 1s ease-in-out;
+        }
+
+        @keyframes fadeInBody {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+                filter: blur(5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        /* فرم جستجو */
+        form {
+            margin-bottom: 40px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            width: 260px;
+            border: 1.5px solid #ccc;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        input[type="text"]:focus {
+            border-color: #00bcd4;
+            outline: none;
+            box-shadow: 0 0 8px rgba(0,188,212,0.2);
+        }
+
+        input[type="submit"] {
+            padding: 12px 24px;
+            background: #00bcd4;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.2s;
+            margin-left: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background: #0097a7;
+            transform: scale(1.05);
+        }
+
+        /* عنوان‌ها */
+        h2 {
+            color: #111;
+            border-bottom: 3px solid #00bcd4;
+            padding-bottom: 8px;
+            margin: 50px 0 20px;
+            font-weight: 800;
+            animation: slideIn 1s ease;
+        }
+
+        h3 {
+            color: #555;
+            font-weight: 500;
+            margin-top: -15px;
+            animation: fadeIn 1.2s ease;
+        }
+
+        p {
+            line-height: 1.7;
+            font-size: 1rem;
+            color: #555;
+            animation: fadeIn 1.3s ease;
+        }
+
+        /* لینک کتاب‌ها */
+        a.tag_a {
+            text-decoration: none;
+            color: #00bcd4;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: color 0.3s ease;
+        }
+
+        a.tag_a:hover {
+            color: #007a8c;
+        }
+
+        a.tag_a img {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100px;
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        a.tag_a img:hover {
+            transform: scale(1.08);
+        }
+
+        /* لیست کتاب‌ها */
+        .book-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .book-item {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .book-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+
+        /* انیمیشن‌های عمومی */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* ریسپانسیو */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            input[type="text"] {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            input[type="submit"] {
+                width: 100%;
+            }
+
+            a.tag_a {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            a.tag_a img {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+{% include "partials/slider.html" %}
+<br>
+    <form method="get" action="{% url 'blog:search' %}">
+        <input type="text" name="query" placeholder="Search books...">
+        <input type="submit" value="Search">
+    </form>
+
+    <h2>Welcome</h2>
+    <h3>Information website</h3>
+    <p>Number of books available on the site: {% number_book %}</p>
+    <p>Number of comments about books: {% number_comment %}</p>
+    <p>Latest published book: {% last_book %}</p>
+    <hr>
+
+    <h2>The most active publications</h2>
+    <p>The most active admins: {% active_admin %}</p>
+    <p>The most active publishers on the site: {% active_publisher as active %}
+        {{ active.publisher }} (Number of books: {{ active.book_count }})
+    </p>
+    <hr>
+
+    <h2>Most popular books</h2>
+    <div class="book-list">
+        {% most_popular_books as most %}
+        {% for mp in most %}
+            <div class="book-item">
+                {% if mp.image %}
+                    <a class="tag_a" href="{{ mp.get_absolut_url }}">
+                        <img src="{{ mp.image.url }}" alt="{{ mp }}">
+                        {{ mp }}
+                    </a>
+                {% else %}
+                    <a class="tag_a" href="{{ mp.get_absolut_url }}">{{ mp }}</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <h2>Recommended book for you</h2>
+    <p>Books recommended by our website to you, friends :</p>
+    <div class="book-list">
+        {% for offer in offers %}
+            <div class="book-item">
+                {% if offer.image %}
+                    <a href="{{ offer.get_absolut_url }}" class="tag_a">
+                        {{ offer }}
+                    </a>
+                {% else %}
+                    <a href="{{ offer.get_absolut_url }}" class="tag_a">{{ offer }}</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+{% endblock %}

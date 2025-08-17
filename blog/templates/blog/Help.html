@@ -1,0 +1,73 @@
+{% extends 'parent/Base.html' %}
+{% block title %} Help {% endblock %}
+
+{% block content %}
+<style>
+  .help-container {
+    max-width: 800px;
+    margin: 3rem auto;
+    background: #eef6fb;
+    padding: 2.5rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 122, 204, 0.15);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #222;
+    line-height: 1.7;
+  }
+
+  .help-container h1 {
+    text-align: center;
+    color: #007acc;
+    font-weight: 700;
+    margin-bottom: 1.8rem;
+  }
+
+  .help-container p {
+    font-size: 1.1rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .help-container ul {
+    list-style: inside disc;
+    margin-left: 1rem;
+    margin-bottom: 1.6rem;
+    font-size: 1.05rem;
+  }
+
+  .help-container ul li {
+    margin-bottom: 0.8rem;
+  }
+
+  .help-container a {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 10px 22px;
+    background-color: #007acc;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+
+  .help-container a:hover {
+    background-color: #005a99;
+  }
+</style>
+
+<div class="help-container">
+  <h1>Project Help</h1>
+  <p>
+    To use this system, you first need to register an account. After logging in, you can access your profile, manage connected devices, leave comments, and use other features.
+  </p>
+  <ul>
+    <li>To update your personal information, go to the Profile section.</li>
+    <li>If you experience any issues, you can contact us via the "Contact Us" section.</li>
+    <li>You can share your feedback in the Comments section.</li>
+  </ul>
+  <p>
+    If you have a question that is not covered here, please reach out to our support team.
+  </p>
+  <p><a href="{% url 'blog:profile' %}">Back</a></p>
+</div>
+{% endblock %}

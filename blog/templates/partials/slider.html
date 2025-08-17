@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Slider</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 30px;
+    }
+
+    .slider {
+      max-width: 1000px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .slides {
+      display: flex;
+      width: 100%;
+      transition: transform 0.6s ease-in-out;
+    }
+
+    .slides img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.4);
+      color: white;
+      font-size: 28px;
+      padding: 8px 14px;
+      border: none;
+      cursor: pointer;
+      z-index: 10;
+      border-radius: 50%;
+    }
+
+    .nav-btn:hover {
+      background: rgba(0,0,0,0.7);
+    }
+
+    .prev {
+      left: 12px;
+    }
+
+    .next {
+      right: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .slides img {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slider">
+    <div class="slides" id="slides">
+      <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1500&q=80" alt="Books">
+      <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=1500&q=80" alt="Bookshelf">
+      <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=1500&q=80" alt="Study Desk">
+      <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1500&q=80" alt="Bookstore">
+    </div>
+
+    <button class="nav-btn prev" onclick="prevSlide()">❮</button>
+    <button class="nav-btn next" onclick="nextSlide()">❯</button>
+  </div>
+
+  <script>
+    const slides = document.getElementById('slides');
+    const totalSlides = slides.children.length;
+    let index = 0;
+
+    function showSlide(i) {
+      index = (i + totalSlides) % totalSlides;
+      slides.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    function nextSlide() {
+      showSlide(index + 1);
+    }
+
+    function prevSlide() {
+      showSlide(index - 1);
+    }
+
+    // Auto-slide every 5 seconds
+    setInterval(() => {
+      nextSlide();
+    }, 5000);
+  </script>
+
+</body>
+</html>

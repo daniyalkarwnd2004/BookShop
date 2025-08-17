@@ -1,0 +1,105 @@
+{% extends 'parent/Base.html' %}
+{% block title %} My Books {% endblock %}
+
+{% block content %}
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f9fafb;
+    color: #333;
+  }
+
+  h2 {
+    text-align: center;
+    color: #007acc;
+    margin-bottom: 1.8rem;
+    font-weight: 700;
+  }
+
+  ul {
+    max-width: 700px;
+    margin: 0 auto 2rem auto;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    background: #fff;
+    padding: 18px 25px;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+    margin-bottom: 16px;
+    line-height: 1.4;
+    transition: box-shadow 0.3s ease;
+  }
+  li:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+
+  strong {
+    font-size: 1.15rem;
+    color: #222;
+  }
+
+  .download-link {
+    display: inline-block;
+    margin-top: 8px;
+    margin-right: 15px;
+    padding: 8px 16px;
+    background-color: #007acc;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+
+  .download-link:hover {
+    background-color: #005a99;
+  }
+
+  p {
+    max-width: 600px;
+    margin: 1.5rem auto;
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+  }
+
+  a.back-link {
+    display: block;
+    max-width: 120px;
+    margin: 0 auto;
+    padding: 10px 0;
+    background-color: #007acc;
+    color: white;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  a.back-link:hover {
+    background-color: #005a99;
+  }
+</style>
+
+<h2>Downloaded Books</h2>
+
+{% if books %}
+    <ul>
+        {% for item in books %}
+            <li>
+                <strong>{{ item.book.title }}</strong> (Author: {{ item.book.author }})
+                <br>
+                <a href="{% url 'blog:download_book' item.book.id %}" class="download-link">Redownload</a>
+                <a href="{{ item.book.file.url }}" class="download-link">Show file</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You have not downloaded any books yet.</p>
+{% endif %}
+
+<a href="{% url 'blog:profile' %}" class="back-link">Back</a>
+{% endblock %}

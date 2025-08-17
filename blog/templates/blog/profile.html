@@ -1,0 +1,192 @@
+{% extends 'parent/Base.html' %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<style>
+    /* کانتینر پروفایل */
+    .profile-container {
+        max-width: 700px;
+        margin: 2.5rem auto;
+        background: linear-gradient(145deg, #e0f7fa, #ffffff);
+        border-radius: 25px;
+        padding: 2.5rem 3rem;
+        box-shadow: 0 15px 40px rgba(0, 128, 255, 0.15);
+        animation: fadeInUp 0.8s ease-out;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* انیمیشن ورود */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* تیتر پروفایل */
+    h2 {
+        text-align: center;
+        color: #007acc;
+        margin-bottom: 2rem;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* عکس پروفایل */
+    .profile-photo {
+        display: block;
+        margin: 0 auto 2rem auto;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 8px 25px rgba(0, 122, 204, 0.4);
+        border: 5px solid #00bcd4;
+        transition: transform 0.4s ease;
+    }
+    .profile-photo:hover {
+        transform: scale(1.05);
+    }
+
+    /* اطلاعات کاربر */
+    .user-info p {
+        font-size: 1.15rem;
+        color: #005a8c;
+        margin: 0.6rem 0;
+        padding-left: 12px;
+        border-left: 3px solid #00bcd4;
+        opacity: 0;
+        animation: fadeIn 0.7s ease forwards;
+    }
+
+    /* تاخیر انیمیشن در نمایش اطلاعات */
+    .user-info p:nth-child(1) { animation-delay: 0.3s; }
+    .user-info p:nth-child(2) { animation-delay: 0.5s; }
+    .user-info p:nth-child(3) { animation-delay: 0.7s; }
+    .user-info p:nth-child(4) { animation-delay: 0.9s; }
+    .user-info p:nth-child(5) { animation-delay: 1.1s; }
+    .user-info p:nth-child(6) { animation-delay: 1.3s; }
+    .user-info p:nth-child(7) { animation-delay: 1.5s; }
+    .user-info p:nth-child(8) { animation-delay: 1.7s; }
+    .user-info p:nth-child(9) { animation-delay: 1.9s; }
+
+    hr {
+        margin: 2rem 0;
+        border: none;
+        border-top: 1.5px solid #00bcd4;
+        opacity: 0.7;
+        animation: fadeIn 0.9s ease-in;
+    }
+
+    /* بخش لینک‌ها */
+    .link-section p {
+        font-weight: 700;
+        color: #007acc;
+        margin-bottom: 0.6rem;
+        letter-spacing: 0.5px;
+    }
+
+    a {
+        display: inline-block;
+        margin: 0.35rem 0;
+        text-decoration: none;
+        color: #0288d1;
+        font-weight: 600;
+        transition: color 0.3s ease, transform 0.3s ease;
+        animation: fadeIn 0.8s ease;
+    }
+
+    a:hover {
+        color: #00bcd4;
+        transform: scale(1.1);
+    }
+
+    ul {
+        padding-left: 1.4rem;
+    }
+
+    li {
+        margin: 0.35rem 0;
+    }
+
+    /* واکنش‌گرایی برای موبایل */
+    @media (max-width: 480px) {
+        .profile-container {
+            padding: 2rem 1.5rem;
+            margin: 1.5rem 1rem;
+        }
+        .user-info p {
+            font-size: 1rem;
+        }
+        .profile-photo {
+            width: 140px;
+            height: 140px;
+            margin-bottom: 1.5rem;
+        }
+    }
+</style>
+
+<div class="profile-container">
+    <h2>Profile</h2>
+
+    {% if user.account.photos %}
+        <img src="{{ user.account.photos.url }}" alt="Profile photo" class="profile-photo">
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <div class="user-info">
+            <p><strong>User name:</strong> {{ user.username }}</p>
+            <p><strong>First name:</strong> {{ user.first_name }}</p>
+            <p><strong>Last name:</strong> {{ user.last_name }}</p>
+            <p><strong>Job:</strong> {{ user.account.job }}</p>
+            <p><strong>Birth:</strong> {{ user.account.birth }}</p>
+            <p><strong>Bio:</strong> {{ user.account.bio }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Last login:</strong> {{ user.last_login }}</p>
+            <p><strong>Date joined:</strong> {{ user.date_joined }}</p>
+        </div>
+    {% endif %}
+
+    <hr>
+
+    <div class="link-section">
+        <p>My home library:</p>
+        <a href="{% url 'blog:my_books' %}">My Books</a>
+    </div>
+
+    <hr>
+
+    <div class="link-section">
+        <p>Change password:</p>
+        <a href="{% url 'blog:password_change' %}">Change Password</a>
+    </div>
+
+    <hr>
+
+    <div class="link-section">
+        <p>Edit Profile</p>
+        <a href="{% url 'blog:user_edit' %}">Edit Profile</a>
+    </div>
+
+    <hr>
+
+    <div class="link-section">
+        <p>Site Policies</p>
+        <ul>
+            <li><a href="{% url 'blog:about' %}">About Project</a></li>
+            <li><a href="{% url 'blog:help' %}">Help</a></li>
+            <li><a href="{% url 'blog:terms' %}">Terms of Use</a></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,151 @@
+{% extends 'parent/base.html' %}
+
+{% block title %}Edit Account{% endblock %}
+
+{% block content %}
+<style>
+  .form {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 30px 25px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+    direction: ltr;
+    color: #333;
+  }
+
+  h4 {
+    font-weight: 700;
+    color: #007acc;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #007acc;
+    padding-bottom: 6px;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.8px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    font-family: inherit;
+    resize: vertical;
+  }
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="date"]:focus,
+  textarea:focus {
+    border-color: #007acc;
+    outline: none;
+  }
+
+  img {
+    border-radius: 10px;
+    margin-top: 8px;
+    max-width: 100px;
+    height: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  .btn-primary {
+    background-color: #007acc;
+    color: #fff;
+    font-weight: 600;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    font-size: 1.1rem;
+  }
+  .btn-primary:hover {
+    background-color: #005a99;
+  }
+
+  hr {
+    border: none;
+    border-bottom: 1.5px solid #ddd;
+    margin: 25px 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 650px) {
+    .form {
+      padding: 20px 15px;
+      margin: 15px;
+    }
+  }
+</style>
+
+<form method="POST" enctype="multipart/form-data" class="form">
+    {% csrf_token %}
+    <h4>User Information</h4>
+
+    <div class="form-group">
+        <label for="id_first_name">First Name</label>
+        <input type="text" name="first_name" id="id_first_name" class="form-control"
+               value="{{ user_form.first_name.value|default_if_none:'' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="id_last_name">Last Name</label>
+        <input type="text" name="last_name" id="id_last_name" class="form-control"
+               value="{{ user_form.last_name.value|default_if_none:'' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="id_email">Email</label>
+        <input type="email" name="email" id="id_email" class="form-control"
+               value="{{ user_form.email.value|default_if_none:'' }}">
+    </div>
+
+    <hr>
+
+    <h4>Account Information</h4>
+
+    <div class="form-group">
+        <label for="id_bio">Biography</label>
+        <textarea name="bio" id="id_bio" class="form-control" rows="4">{{ account_form.bio.value|default_if_none:'' }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="id_birth">Date of Birth</label>
+        <input type="date" name="birth" id="id_birth" class="form-control"
+               value="{{ account_form.birth.value|date:'Y-m-d' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="id_job">Job</label>
+        <input type="text" name="job" id="id_job" class="form-control"
+               value="{{ account_form.job.value|default_if_none:'' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="id_photos">Profile Picture</label><br>
+        {% if account_form.instance.photos %}
+            <img src="{{ account_form.instance.photos.url }}" alt="Profile Photo"><br>
+        {% endif %}
+        {{ account_form.photos }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+{% endblock %}

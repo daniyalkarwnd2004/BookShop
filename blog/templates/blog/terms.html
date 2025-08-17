@@ -1,0 +1,73 @@
+{% extends 'parent/Base.html' %}
+{% block title %} Terms {% endblock %}
+
+{% block content %}
+<style>
+  .terms-container {
+    max-width: 800px;
+    margin: 3rem auto;
+    background: #f9f9f9;
+    padding: 2.5rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    line-height: 1.6;
+  }
+
+  .terms-container h1 {
+    color: #007acc;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+  }
+
+  .terms-container p {
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .terms-container ol {
+    margin-left: 1.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .terms-container ol li {
+    margin-bottom: 0.9rem;
+    font-size: 1rem;
+  }
+
+  .terms-container a {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 10px 20px;
+    background-color: #007acc;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+
+  .terms-container a:hover {
+    background-color: #005a99;
+  }
+</style>
+
+<div class="terms-container">
+  <h1>Terms of Use</h1>
+  <p>
+    By using this website, you agree to the following terms and conditions:
+  </p>
+  <ol>
+    <li>Users must provide accurate and truthful information during registration and use of the system.</li>
+    <li>Any illegal or unauthorized use of the system is strictly prohibited and may result in legal action.</li>
+    <li>We are committed to protecting your privacy; personal information will not be shared without your consent.</li>
+    <li>Terms and policies may be updated at any time. Users are responsible for reviewing the latest version.</li>
+  </ol>
+  <p>
+    If you do not agree with these terms, please refrain from using the system.
+  </p>
+  <p><a href="{% url 'blog:profile' %}">Back</a></p>
+</div>
+{% endblock %}

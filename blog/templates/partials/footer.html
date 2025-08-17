@@ -1,0 +1,81 @@
+<footer class="site-footer">
+  <div class="footer-container">
+    <p class="footer-intro">I'm a backend developer — let's build scalable apps together.</p>
+
+    <div class="footer-contact">
+      <a href="https://wa.me/989938231429" class="icon-link" target="_blank" rel="noopener">
+        <img src="https://img.icons8.com/ios-filled/30/25d366/whatsapp.png" alt="WhatsApp">
+        <span>WhatsApp</span>
+      </a>
+
+      <a href="https://t.me/your_username" class="icon-link" target="_blank" rel="noopener">
+        <img src="https://img.icons8.com/ios-filled/30/0088cc/telegram-app.png" alt="Telegram">
+        <span>Telegram</span>
+      </a>
+
+      <p class="phone-number">📞 09938231429</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 40px 20px;
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+    margin-top: 80px;
+  }
+
+  .footer-container {
+    max-width: 900px;
+    margin: auto;
+  }
+
+  .footer-intro {
+    font-size: 18px;
+    margin-bottom: 25px;
+    font-weight: 500;
+  }
+
+  .footer-contact {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    align-items: center;
+  }
+
+  .icon-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ecf0f1;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .icon-link:hover {
+    color: #1abc9c;
+  }
+
+  .icon-link img {
+    width: 26px;
+    height: 26px;
+  }
+
+  .phone-number {
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 600px) {
+    .footer-contact {
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+</style>

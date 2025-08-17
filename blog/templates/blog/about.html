@@ -1,0 +1,60 @@
+{% extends 'parent/Base.html' %}
+{% block title %} About {% endblock %}
+
+{% block content %}
+<style>
+  .about-container {
+    max-width: 750px;
+    margin: 3rem auto;
+    background-color: #f9fafb;
+    padding: 2.5rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    line-height: 1.65;
+  }
+
+  .about-container h1 {
+    text-align: center;
+    color: #004a99;
+    font-weight: 700;
+    margin-bottom: 1.8rem;
+  }
+
+  .about-container p {
+    font-size: 1.1rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .about-container a {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 10px 22px;
+    background-color: #004a99;
+    color: white;
+    text-decoration: none;
+    border-radius: 7px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+
+  .about-container a:hover {
+    background-color: #003366;
+  }
+</style>
+
+<div class="about-container">
+  <h1>About the Project</h1>
+  <p>
+    This project is designed to provide a secure, efficient, and user-friendly platform for managing user data and interactions with the system.
+  </p>
+  <p>
+    We aim to deliver a smooth and reliable experience using modern technologies such as Django and HTML5.
+  </p>
+  <p>
+    The project is open-source and contributions from the community are welcome.
+  </p>
+  <p><a href="{% url 'blog:profile' %}">Back</a></p>
+</div>
+{% endblock %}

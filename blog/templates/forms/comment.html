@@ -1,0 +1,12 @@
+{% extends 'parent/Base.html' %}
+{% block title %}Send Comment{% endblock %}
+
+{% block content %}
+<div class="success-message-container">
+    <div class="success-card">
+        <h2 class="success-title">Your comment has been successfully submitted!</h2>
+        <p class="success-text">Thank you for your feedback. We appreciate your input.</p>
+        <a href="{{book.get_absolut_url}}" class="back-button">Go Back</a>
+    </div>
+</div>
+{% endblock %}

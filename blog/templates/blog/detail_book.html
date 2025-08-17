@@ -1,0 +1,291 @@
+{% extends 'parent/Base.html' %}
+{% block title %} Detail Book {% endblock %}
+
+{% block content %}
+<style>
+  .detail-book {
+    max-width: 900px;
+    margin: 2rem auto;
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+  }
+
+  /* Flex container for info and main image */
+  .detail-main {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  /* Left: book info */
+  .book-info {
+    flex: 1 1 55%;
+    min-width: 280px;
+  }
+  .book-info h2 {
+    margin-bottom: 20px;
+    color: #007acc;
+    font-weight: 700;
+  }
+  .book-info p {
+    margin: 10px 0;
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+  .book-info strong {
+    color: #005a8c;
+  }
+
+  /* Right: main book image */
+  .book-image {
+    flex: 1 1 40%;
+    min-width: 200px;
+    max-width: 350px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,123,204,0.15);
+  }
+  .book-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+  }
+
+  /* Download & file links */
+  .download-links {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+  }
+  .download-link {
+    background-color: #007acc;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(0,123,204,0.4);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .download-link:hover {
+    background-color: #005a8c;
+    box-shadow: 0 8px 20px rgba(0,90,140,0.7);
+  }
+  .no-file {
+    font-style: italic;
+    color: #999;
+    margin-top: 15px;
+  }
+
+  /* Gallery of other images */
+  .book-gallery {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .book-gallery img {
+    width: 120px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  .book-gallery img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,123,204,0.3);
+  }
+
+  /* Comment Section */
+  .comment-section {
+    max-width: 900px;
+    margin: 40px auto 60px;
+    background: #f9fbfd;
+    padding: 25px 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,123,204,0.1);
+  }
+  .comment-title {
+    font-weight: 700;
+    color: #007acc;
+    margin-bottom: 20px;
+  }
+
+  .comment-form .form-group {
+    margin-bottom: 18px;
+  }
+  .comment-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .form-input, .form-textarea {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: 1.8px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+  }
+  .form-input:focus, .form-textarea:focus {
+    outline: none;
+    border-color: #007acc;
+    box-shadow: 0 0 8px rgba(0, 122, 204, 0.3);
+  }
+  .form-textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .comment-submit {
+    background-color: #007acc;
+    color: white;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 30px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .comment-submit:hover {
+    background-color: #005a8c;
+    box-shadow: 0 8px 20px rgba(0,90,140,0.7);
+  }
+
+  .comment-list {
+    margin-top: 30px;
+  }
+  .comment-count {
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #007acc;
+  }
+  .single-comment {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+  }
+  .comment-author {
+    font-weight: 700;
+    color: #005a8c;
+    margin-bottom: 8px;
+  }
+  .comment-body {
+    font-style: italic;
+    color: #444;
+    line-height: 1.4;
+  }
+  .no-comments {
+    font-style: italic;
+    color: #999;
+    text-align: center;
+    padding: 25px 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .detail-main {
+      flex-direction: column;
+    }
+    .book-image, .book-info {
+      flex: 1 1 100%;
+      max-width: 100%;
+    }
+    .book-gallery img {
+      width: 100px;
+      height: 130px;
+    }
+  }
+</style>
+
+<form method="get" action="{% url 'blog:search' %}" style="max-width:900px;margin: 0 auto 30px; display:flex; gap:10px;">
+    <input type="text" name="query" placeholder="Search books..." style="flex:1; padding:10px 15px; font-size:1rem; border: 1.8px solid #ccc; border-radius: 8px;" />
+    <input type="submit" value="Search" style="background:#007acc; color:#fff; border:none; padding: 10px 20px; border-radius: 8px; cursor:pointer; font-weight:700; transition: background-color 0.3s ease;" />
+</form>
+
+<div class="detail-book">
+  <div class="detail-main">
+    <div class="book-info">
+      <h2>Detail Book</h2>
+      <p><strong>Title:</strong> {{ book.title }}</p>
+      <p><strong>Description:</strong> {{ book.description }}</p>
+      <p><strong>Pages:</strong> {{ book.num_pages }}</p>
+      <p><strong>Publisher:</strong> {{ book.publisher }}</p>
+      <p><strong>Price:</strong> {{ book.price }}</p>
+      <p><strong>Language:</strong> {{ book.language }}</p>
+      <p><strong>Author:</strong> {{ book.author }}</p>
+      <p><strong>Published:</strong> {{ book.publish|date:"Y/m/d" }}</p>
+
+      <div class="download-links">
+        {% if book.file %}
+          <a href="{{ book.file.url }}" class="download-link" target="_blank" rel="noopener">Show file</a>
+          <a href="{% url 'blog:download_book' book.id %}" class="download-link">Download file</a>
+        {% else %}
+          <p class="no-file">There is no file to download.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="book-image">
+      {% if book.images.all %}
+        <img src="{{ book.images.all.0.image.url }}" alt="{{ book.title }}">
+      {% else %}
+        <img src="https://via.placeholder.com/350x460?text=No+Image" alt="No image available">
+      {% endif %}
+    </div>
+  </div>
+
+  {% if book.images.count > 1 %}
+  <div class="book-gallery">
+    {% for img in book.images.all %}
+      <img src="{{ img.image.url }}" alt="Book image {{ forloop.counter }}">
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+
+<hr>
+
+<div class="comment-section">
+  <h2 class="comment-title">Comments</h2>
+  <form method="post" action="{% url 'blog:comment_book' book.id %}" class="comment-form">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="name" class="comment-label">Name:</label>
+      <input type="text" name="name" class="form-input" placeholder="Enter your name" {% if form.name.value %} value="{{ form.name.value }}" {% endif %}>
+    </div>
+
+    <div class="form-group">
+      <label for="body" class="comment-label">Comment:</label>
+      <textarea name="body" class="form-textarea" placeholder="Write your comment here..."></textarea>
+    </div>
+
+    <input type="submit" value="Send" class="comment-submit">
+  </form>
+
+  <div class="comment-list">
+    <p class="comment-count">Number of Comments: {{ comment.count }}</p>
+    <hr>
+    {% for cm in comment %}
+      <div class="single-comment">
+        <p class="comment-author">{{ cm.name }}</p>
+        <p class="comment-body">{{ cm.body }}</p>
+      </div>
+    {% empty %}
+      <p class="no-comments">No Comments</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

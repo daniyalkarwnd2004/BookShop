@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'Css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        {% include "partials/header.html" %}
+        {% block content %}{% endblock %}
+        {% include "partials/footer.html" %}
+
+    </div>
+</body>
+</html>
